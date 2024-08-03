@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NuvoleWeb\Robo\Task\Config\Robo;
 
+use Consolidation\Config\Loader\ConfigProcessor;
+use Consolidation\Config\Loader\YamlConfigLoader;
 use Robo\Robo;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Command\Command;
-use Consolidation\Config\Loader\YamlConfigLoader;
-use Consolidation\Config\Loader\ConfigProcessor;
 use Symfony\Component\Yaml\Yaml;
 
 /**

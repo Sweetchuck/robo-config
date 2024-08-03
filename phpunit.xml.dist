@@ -1,16 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-    backupGlobals               = "true"
-    backupStaticAttributes      = "false"
-    colors                      = "true"
-    convertErrorsToExceptions   = "true"
-    convertNoticesToExceptions  = "true"
-    convertWarningsToExceptions = "true"
-    stopOnFailure               = "false"
-    bootstrap                   = "vendor/autoload.php">
-    <testsuites>
-        <testsuite name="Robo config">
-            <directory>tests/</directory>
-        </testsuite>
-    </testsuites>
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+  cacheDirectory = "./.cache/"
+  backupGlobals  = "true"
+  colors         = "true"
+  bootstrap      = "vendor/autoload.php">
+
+  <source>
+    <include>
+      <directory>./src/</directory>
+    </include>
+  </source>
+
+  <testsuites>
+    <testsuite name="unit">
+      <directory>./tests/src/Unit</directory>
+    </testsuite>
+  </testsuites>
+
+  <coverage>
+    <report>
+      <clover outputFile="./reports/machine/coverage/phpunit.xml"/>
+      <html outputDirectory="./reports/human/coverage/html"/>
+      <text outputFile="php://stdout"/>
+    </report>
+  </coverage>
+
+  <logging>
+    <testdoxHtml outputFile="./reports/human/junit/phpunit.html"/>
+    <junit outputFile="./reports/machine/junit/phpunit.xml"/>
+  </logging>
 </phpunit>

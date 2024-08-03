@@ -10,17 +10,21 @@
     }
   ],
   "require": {
-    "consolidation/robo": "^4.0"
+    "consolidation/robo": "^5.0"
   },
   "require-dev": {
-    "drupal/coder": "^8.3.16",
-    "phpunit/phpunit": "^9.5.5",
-    "phpro/grumphp": "^1.14"
+    "drupal/coder": "^8.3",
+    "phpro/grumphp": "^2.6",
+    "phpunit/phpunit": "^11.3"
   },
   "autoload": {
     "psr-4": {
-      "NuvoleWeb\\Robo\\Task\\Config\\": "./src/",
-      "NuvoleWeb\\Robo\\Tests\\": "./tests/"
+      "NuvoleWeb\\Robo\\Task\\Config\\": "./src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "NuvoleWeb\\Robo\\Tests\\": "./tests/src/"
     }
   },
   "config": {

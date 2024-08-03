@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NuvoleWeb\Robo\Task\Config\Php;
 
 use Robo\Config\Config;

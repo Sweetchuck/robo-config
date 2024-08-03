@@ -1,5 +1,8 @@
+/.cache/
+/reports/
 /vendor/
-composer.lock
-grumphp.yml
-phpunit.xml
-tests/fixtures/tmp/*.php
+
+/composer.lock
+/grumphp.yml
+/phpunit.xml
+/tests/fixtures/tmp/*.php

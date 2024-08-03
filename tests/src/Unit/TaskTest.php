@@ -1,28 +1,27 @@
 <?php
 
-namespace NuvoleWeb\Robo\Tests;
+declare(strict_types=1);
 
-use League\Container\ContainerAwareInterface;
-use NuvoleWeb\Robo\Task\Config\Php\AppendConfiguration;
-use NuvoleWeb\Robo\Task\Config\loadTasks;
-use PHPUnit\Framework\TestCase;
-use Robo\Config\Config;
+namespace NuvoleWeb\Robo\Tests\Unit;
+
 use Consolidation\Config\Loader\YamlConfigLoader;
+use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
+use NuvoleWeb\Robo\Task\Config\loadTasks;
+use NuvoleWeb\Robo\Task\Config\Php\AppendConfiguration;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
+use Robo\Collection\CollectionBuilder;
+use Robo\Config\Config;
 use Robo\Contract\TaskInterface;
+use Robo\Robo;
+use Robo\TaskAccessor;
+use Robo\Tasks;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\NullOutput;
-use Robo\TaskAccessor;
-use Robo\Robo;
-use Robo\Collection\CollectionBuilder;
 
-/**
- * Class TaskTest.
- *
- * @package NuvoleWeb\Robo\Tests
- */
 class TaskTest extends TestCase implements ContainerAwareInterface {
 
   use loadTasks;
@@ -33,16 +32,14 @@ class TaskTest extends TestCase implements ContainerAwareInterface {
    * {@inheritdoc}
    */
   protected function setUp(): void {
-    $container = Robo::createDefaultContainer(null, new NullOutput());
+    $container = Robo::createDefaultContainer(NULL, new NullOutput());
     $this->setContainer($container);
   }
 
   /**
    * Tests token replacement.
-   *
-   * @covers \NuvoleWeb\Robo\Task\Config\loadTasks::initializeConfiguration
    */
-  public function testTokenReplacement() {
+  public function testTokenReplacement(): void {
     $definition = new InputDefinition([
       new InputOption('config', 'c', InputOption::VALUE_REQUIRED),
       new InputOption('override', 'o', InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL),
@@ -64,19 +61,19 @@ class TaskTest extends TestCase implements ContainerAwareInterface {
    * Scaffold collection builder.
    *
    * @return \Robo\Collection\CollectionBuilder
-   *    Collection builder.
+   *   Collection builder.
    */
-  public function collectionBuilder() {
-    $empty_robo_file = new \Robo\Tasks;
+  public function collectionBuilder(): CollectionBuilder {
+    $empty_robo_file = new Tasks();
+
     return CollectionBuilder::create($this->getContainer(), $empty_robo_file);
   }
 
   /**
    * Test task run.
-   *
-   * @dataProvider appendTestProvider
    */
-  public function testTaskAppendConfiguration($config_file, $source_file, $processed_file) {
+  #[DataProvider('appendTestProvider')]
+  public function testTaskAppendConfiguration($config_file, $source_file, $processed_file): void {
     $source = $this->getFixturePath($source_file);
     $filename = $this->getFixturePath('tmp/' . $source_file);
     copy($source, $filename);
@@ -92,10 +89,9 @@ class TaskTest extends TestCase implements ContainerAwareInterface {
 
   /**
    * Test task run.
-   *
-   * @dataProvider prependTestProvider
    */
-  public function testTaskPrependConfiguration($config_file, $source_file, $processed_file) {
+  #[DataProvider('prependTestProvider')]
+  public function testTaskPrependConfiguration($config_file, $source_file, $processed_file): void {
     $source = $this->getFixturePath($source_file);
     $filename = $this->getFixturePath('tmp/' . $source_file);
     copy($source, $filename);
@@ -111,10 +107,9 @@ class TaskTest extends TestCase implements ContainerAwareInterface {
 
   /**
    * Test task run.
-   *
-   * @dataProvider writeTestProvider
    */
-  public function testTaskWriteConfiguration($config_file, $processed_file) {
+  #[DataProvider('writeTestProvider')]
+  public function testTaskWriteConfiguration($config_file, $processed_file): void {
     $filename = $this->getFixturePath('tmp/' . $processed_file);
     $config = $this->getConfig($config_file);
     $command = $this->taskWriteConfiguration($filename, $config)->run();
@@ -127,10 +122,9 @@ class TaskTest extends TestCase implements ContainerAwareInterface {
 
   /**
    * Test setting processing.
-   *
-   * @dataProvider appendTestProvider
    */
-  public function testProcess($config_file, $source_file, $processed_file) {
+  #[DataProvider('appendTestProvider')]
+  public function testProcess($config_file, $source_file, $processed_file): void {
     $filename = $this->getFixturePath($source_file);
     $config = $this->getConfig($config_file);
 
@@ -144,9 +138,9 @@ class TaskTest extends TestCase implements ContainerAwareInterface {
    * Data provider.
    *
    * @return array
-   *    Test data.
+   *   Test data.
    */
-  public function appendTestProvider() {
+  public static function appendTestProvider(): array {
     return [
       ['1-config.yml', '1-input.php', '1-output-append.php'],
       ['2-config.yml', '2-input.php', '2-output-append.php'],
@@ -157,9 +151,9 @@ class TaskTest extends TestCase implements ContainerAwareInterface {
    * Data provider.
    *
    * @return array
-   *    Test data.
+   *   Test data.
    */
-  public function prependTestProvider() {
+  public static function prependTestProvider(): array {
     return [
       ['1-config.yml', '1-input.php', '1-output-prepend.php'],
       ['2-config.yml', '2-input.php', '2-output-prepend.php'],
@@ -170,9 +164,9 @@ class TaskTest extends TestCase implements ContainerAwareInterface {
    * Data provider.
    *
    * @return array
-   *    Test data.
+   *   Test data.
    */
-  public function writeTestProvider() {
+  public static function writeTestProvider(): array {
     return [
       ['3-config.yml', '3-output-write.php'],
     ];
@@ -182,16 +176,17 @@ class TaskTest extends TestCase implements ContainerAwareInterface {
    * Get configuration object from given fixture.
    *
    * @param string $fixture
-   *    Fixture file name.
+   *   Fixture file name.
    *
    * @return \Robo\Config\Config
-   *    Configuration object.
+   *   Configuration object.
    */
-  private function getConfig($fixture) {
+  private function getConfig(string $fixture): Config {
     $config = new Config();
     $loader = new YamlConfigLoader();
     $loader->load($this->getFixturePath($fixture));
-    $config->import($loader->export());
+    $config->replace($loader->export());
+
     return $config;
   }
 
@@ -199,28 +194,29 @@ class TaskTest extends TestCase implements ContainerAwareInterface {
    * Get fixture file path.
    *
    * @param string $name
-   *    Fixture file name.
+   *   Fixture file name.
    *
    * @return string
-   *    Fixture file path.
+   *   Fixture file path.
    */
-  private function getFixturePath($name) {
-    return dirname(__FILE__) . '/fixtures/' . $name;
+  private function getFixturePath(string $name): string {
+    return dirname(__DIR__, 2) . '/fixtures/' . $name;
   }
 
   /**
-   * Run the given task for the given times
+   * Run the given task for the given times.
    *
    * @param int $times
-   *    Times task should be ran.
+   *   Times task should be ran.
    * @param \Robo\Contract\TaskInterface $task
-   *    Task to run.
+   *   Task to run.
    */
-  private function runTimes($times, TaskInterface $task) {
-    $i = 20;
+  private function runTimes(int $times, TaskInterface $task): void {
+    $i = $times;
     while ($i >= 0) {
       $task->run();
       $i--;
     }
   }
+
 }

@@ -28,7 +28,7 @@ After installation add the following trait to your `RoboFile.php`:
 ```php
 <?php
 class RoboFile extends Robo\Tasks {
-  
+
   use NuvoleWeb\Robo\Task\Config\loadTasks;
 
 }
@@ -115,13 +115,13 @@ Given an existing `/my/config.php` file, by calling:
 class RoboFile {
 
   public function appendTask() {
-    $this->taskAppendConfiguration('/my/config.php')->run();  
+    $this->taskAppendConfiguration('/my/config.php')->run();
   }
 
-}    
+}
 ```
 
-We will get the following result: 
+We will get the following result:
 
 ```php
 <?php
@@ -146,13 +146,13 @@ Given an existing `/my/config.php` file, by calling:
 class RoboFile {
 
   public function appendTask() {
-    $this->taskPrependConfiguration('/my/config.php')->run();  
+    $this->taskPrependConfiguration('/my/config.php')->run();
   }
 
-}    
+}
 ```
 
-We will get the following result: 
+We will get the following result:
 
 ```php
 <?php
@@ -178,13 +178,13 @@ Given a non-existing `/my/config.php` file, by calling:
 class RoboFile {
 
   public function appendTask() {
-    $this->taskWriteConfiguration('/my/config.php')->run();  
+    $this->taskWriteConfiguration('/my/config.php')->run();
   }
 
-}    
+}
 ```
 
-We will get the following result: 
+We will get the following result:
 
 ```php
 <?php
@@ -209,7 +209,7 @@ class RoboFile {
 
   public function myTask() {
     $config = $this->getMyConfiguration();
-    
+
     $this->taskAppendConfiguration('/my/config.php', $config) // Use custom configuration.
     ->setBlockStart('// Start')                               // Change opening comment.
     ->setBlockEnd('// End')                                   // Change closing comment.
@@ -217,7 +217,7 @@ class RoboFile {
     ->run();
   }
 
-}    
+}
 ```
 
 ### Standalone usage
@@ -229,9 +229,9 @@ them by including the following trait:
 <?php
 
 class RoboFile {
-  
+
   use \NuvoleWeb\Robo\Task\Config\Php\loadTasks;
-  
+
 }
 ```
 

@@ -146,7 +146,7 @@ class TaskTest extends TestCase implements ContainerAwareInterface {
    * @return array
    *    Test data.
    */
-  public function appendTestProvider() {
+  public static function appendTestProvider() {
     return [
       ['1-config.yml', '1-input.php', '1-output-append.php'],
       ['2-config.yml', '2-input.php', '2-output-append.php'],
@@ -159,7 +159,7 @@ class TaskTest extends TestCase implements ContainerAwareInterface {
    * @return array
    *    Test data.
    */
-  public function prependTestProvider() {
+  public static function prependTestProvider() {
     return [
       ['1-config.yml', '1-input.php', '1-output-prepend.php'],
       ['2-config.yml', '2-input.php', '2-output-prepend.php'],
@@ -172,7 +172,7 @@ class TaskTest extends TestCase implements ContainerAwareInterface {
    * @return array
    *    Test data.
    */
-  public function writeTestProvider() {
+  public static function writeTestProvider() {
     return [
       ['3-config.yml', '3-output-write.php'],
     ];

@@ -7,12 +7,21 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        PHP_VERSION: [ "8.0", "8.1" ]
+        ROBO_VERSION: [ "4.0", "5.0" ]
+        PHP_VERSION: [ "8.2", "8.3" ]
+        include:
+          - ROBO_VERSION: "4.0"
+            PHP_VERSION: "8.0"
+          - ROBO_VERSION: "4.0"
+            PHP_VERSION: "8.1"
 
     steps:
       - uses: actions/checkout@v2
       - uses: php-actions/composer@v6
         with:
-          php_version: ${{ matrix.php_version }}
+          command: "require consolidation/robo:~${{ matrix.ROBO_VERSION }}"
+          php_version: ${{ matrix.PHP_VERSION }}
           version: 2
       - uses: php-actions/phpunit@v3
+        with:
+          test_suffix: FALSE
